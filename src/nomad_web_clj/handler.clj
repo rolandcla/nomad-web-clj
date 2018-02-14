@@ -7,7 +7,9 @@
   (:require [clojure.java.io :as io]
             [clojure.java.jdbc :as jdbc]
             [honeysql.core :as sql]
-            ))
+            )
+  (:require [hiccup.core :refer :all]
+            [hiccup.element :refer :all]))
 
 ;; NOMAD Storage --------------------------------------------------------------
 (def NOMAD-DATA-DIR "/home/rolandcl/Projects/NOMAD/data")
@@ -23,13 +25,26 @@
                       :order-by [:beg_dtime]})
          (jdbc/query cache-db))
     ))
+;;-----------------------------------------------------------------------------
+
+;; HTML rendering -------------------------------------------------------------
+(defn render-in-table [infos]
+  (html
+   [:table {:style "width:100%"
+            :border "1px solid black"
+            }
+    [:tr [:th "Path"]]
+    (for [info infos]
+      [:tr [:td (:path info)]])]
+   ))
 
 ;;-----------------------------------------------------------------------------
 
 (defn list-files [request]
   (-> (:uri request)
       (subs 1)
-      read-cache))
+      read-cache
+      render-in-table))
 
 (defroutes app-routes
   (GET "/" [] "Hello World")

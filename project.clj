@@ -8,7 +8,8 @@
                  [ring "1.6.3"]
                  [org.clojure/java.jdbc "0.7.5"]
                  [org.xerial/sqlite-jdbc "3.21.0.1"]
-                 [honeysql "0.9.1"]]
+                 [honeysql "0.9.1"]
+                 [hiccup "1.0.5"]]
   :plugins [[lein-ring "0.9.7"]]
   :ring {:handler nomad-web-clj.handler/app}
   :profiles
